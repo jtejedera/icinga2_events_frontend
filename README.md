@@ -4,6 +4,8 @@ This project is a simple Frontend app to use with icinga2_api_request backend (h
 
 It's built with Vue.js, Vuetify and Socket.io.
 
+![picture](public/images/screenshot.png)
+
 ## Project configuration
 
 * Change Node.js Backend API server address and Socket.io namespace address:
