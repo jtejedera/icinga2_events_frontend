@@ -1,32 +1,73 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="blue-grey darken-3"
+      dark
+    >
+      <div class="d-flex align-center">
+        <v-icon contain class="shrink mr-2" transition="scale-transition" x-large>sms_failed</v-icon>   
+      </div>
+      <v-text-field
+        solo-inverted
+        flat
+        hide-details
+        label="Search"
+        prepend-inner-icon="search"
+        v-model="searchWord"
+      ></v-text-field>   
+    </v-app-bar>
+
+    <v-content fluid>
+      <alertList/>
+    </v-content>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import alertList from './components/alertList';
 
-#nav {
-  padding: 30px;
-}
+export default {
+  name: 'App',
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  components: {
+    alertList,
+  },
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+  data: () => ({
+    //
+  }),
+  computed:{
+    searchWord:{
+      get(){
+        return this.$store.state.events.eventSearchQuery;
+      },
+      set(val){
+        this.$store.commit('events/SEARCH_EVENT', val);
+      }
+
+    }
+  },
+  sockets:{
+      error(err){
+        console.log(`%c SOCKET ERROR: ${err}`, 'background: red; color: #bada55; font-weight:bold');
+      },
+      connect(){
+          console.log(`%c SOCKET CONNECTED`, 'background: black; color: #bada55; font-weight:bold');
+      }       
+  },
+  methods:{
+
+  },
+  mounted(){
+    this.$socket.open(); 
+
+    setInterval(() => {
+        if(this.$store.getters['events/EVENTS'].length){
+          this.$store.dispatch('events/checkNormalEvents');
+          this.$store.dispatch('events/sortActiveEvents');
+        }
+      }, 180000);     
+  }
+};
+</script>
