@@ -1,6 +1,6 @@
 # README
 
-This project is a simple Frontend app to use with icinga2_api_request backend (https://bitbucket.org/jtejedera/icinga2_api_request)
+This project is a simple Frontend app to use with icinga2_api_request backend (https://github.com/jtejedera/icinga2_api_request)
 
 It's built with Vue.js, Vuetify and Socket.io.
 
